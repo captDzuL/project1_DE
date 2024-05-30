@@ -1,7 +1,7 @@
 #!python config
 
-oltp_conn_string = "postgresql://postgres:admin@localhost:5432/OLTP_local"
-warehouse_conn_string = "postgresql://postgres:admin@localhost:5432/DWH_local"
+oltp_conn_string = "postgresql://postgres:200403@localhost:5432/ftde01_oltp"
+warehouse_conn_string = "postgresql://postgres:200403@localhost:5432/ftde01_dwh"
 
 oltp_tables = {
     "users": "tb_users",

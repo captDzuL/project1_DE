@@ -1,4 +1,3 @@
-
         CREATE TABLE IF NOT EXISTS dim_user (
             user_id INT NOT NULL PRIMARY KEY,
             user_first_name VARCHAR(255) NOT NULL,
@@ -29,6 +28,19 @@
             voucher_created DATE NOT NULL,
             user_id INT NOT NULL
         );
+       		CREATE TABLE IF NOT EXISTS dim_product_category (
+            product_category_id INT NOT NULL PRIMARY KEY,
+			product_category_name VARCHAR(255) NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS dim_products (
+            product_id INT NOT NULL PRIMARY KEY,
+            product_category_id INT NOT NULL,
+            product_name VARCHAR(255) NOT NULL,
+            product_created DATE NOT NULL,
+            product_price INT NOT NULL,
+            product_discount INT NOT NULL,
+            FOREIGN KEY (product_category_id) REFERENCES dim_product_category(product_category_id)
+        );
         CREATE TABLE IF NOT EXISTS fact_orders (
             order_id INT NOT NULL PRIMARY KEY,
             order_date DATE NOT NULL,
@@ -46,28 +58,16 @@
             FOREIGN KEY (voucher_id) REFERENCES dim_voucher(voucher_id),
             FOREIGN KEY (rating_id) REFERENCES dim_rating(rating_id)
         );
-        CREATE TABLE IF NOT EXISTS dim_product_category(
-            product_category_id INT NOT NULL PRIMARY KEY,
-            product_category_name VARCHAR(255) NOT NULL
-        );
-        CREATE TABLE IF NOT EXISTS dim_products (
-            product_id INT NOT NULL PRIMARY KEY,
-            product_category_id INT NOT NULL,
-            product_name VARCHAR(255) NOT NULL,
-            product_created DATE NOT NULL,
-            product_price INT NOT NULL,
-            product_discount INT,
-            FOREIGN KEY (product_category_id) REFERENCES dim_product_category(product_category_id)
-        );
-        CREATE TABLE IF NOT EXISTS fact_order_items(
-            order_item_id INT NOT NULL PRIMARY KEY,
+		CREATE TABLE IF NOT EXISTS fact_order_items (
+			order_item_id INT NOT NULL PRIMARY KEY,
             order_id INT NOT NULL,
             product_id INT NOT NULL,
-            order_item_quantity INT,
-            product_discount INT,
-            product_subdiscount INT,
+            order_item_quantity INT NOT NULL,
+            product_discount INT NOT NULL,
+            product_subdiscount INT NOT NULL,
             product_price INT NOT NULL,
-            product_subprice INT NOT NULL,
+            product_subprice INT,
             FOREIGN KEY (order_id) REFERENCES fact_orders(order_id),
             FOREIGN KEY (product_id) REFERENCES dim_products(product_id)
         );
+		
